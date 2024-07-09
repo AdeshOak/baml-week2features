@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px 0; /* Adjust padding as needed */
+    box-sizing: border-box; /* Ensure box-sizing property */
+}
+
+.navbar ul {
+    flex: 1;
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline-block;
+    margin: 0 10px; /* Adjust margin as needed */
+    font-size: 18px;
+    cursor: pointer;
+}
+.active {
+    /* Example styles for underline */
+    text-decoration: underline;
+    
+    /* Example styles for shaded box */
+    /* background-color: #f0f0f0; */
+    /* padding: 5px 10px; */
+  }

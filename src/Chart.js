@@ -13,10 +13,15 @@ import "reactflow/dist/style.css";
 import "./chartstyles.css";  // Import the CSS file
 
 const CustomNode = ({ id, data }) => {
+  const labelWidth = data.label.length * 10 + 20; // Adjust multiplier and base width as needed
+  const nodeStyle = {
+    width: `${labelWidth}px`,
+  };
+
   return (
-    <div className="custom-node">
+    <div className="custom-node" style={nodeStyle}>
       <Handle type="target" position="top" />
-      <div>{data.label}</div>
+      <div style={{ marginRight: "10px" }}>{data.label}</div>
       <button onClick={() => data.onButtonClick(id)}>➡</button>
       <Handle type="source" position="bottom" />
     </div>
@@ -30,15 +35,15 @@ const nodeTypes = {
 export const CareerPathTreeChart = () => {
   const position = { x: 0, y: 0 };
   const initialNodes = [
-    { id: "1", data: { label: "one" }, position, type: "custom" },
-    { id: "2", data: { label: "two" }, position, type: "custom" },
-    { id: "3", data: { label: "three" }, position, type: "custom" },
-    { id: "4", data: { label: "four" }, position, type: "custom" },
-    { id: "5", data: { label: "five" }, position, type: "custom" },
-    { id: "6", data: { label: "six" }, position, type: "custom" },
-    { id: "7", data: { label: "seven" }, position, type: "custom" },
-    { id: "8", data: { label: "eight" }, position, type: "custom" },
-    { id: "9", data: { label: "nine" }, position, type: "custom" },
+    { id: "1", data: { label: "Reverse Engineering" }, position, type: "custom" },
+    { id: "2", data: { label: "Brain" }, position, type: "custom" },
+    { id: "3", data: { label: "Body" }, position, type: "custom" },
+    { id: "4", data: { label: "Frontal Lobe" }, position, type: "custom" },
+    { id: "5", data: { label: "Parietal Lobe" }, position, type: "custom" },
+    { id: "6", data: { label: "Temporal Lobe" }, position, type: "custom" },
+    { id: "7", data: { label: "Nervous System" }, position, type: "custom" },
+    { id: "8", data: { label: "Sensory Organs" }, position, type: "custom" },
+    { id: "9", data: { label: "Vision" }, position, type: "custom" },
   ];
 
   const initialEdges = [
@@ -55,15 +60,16 @@ export const CareerPathTreeChart = () => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const nodeWidth = 172;
-  const nodeHeight = 36;
-
   const getLayoutedElements = (nodes, edges, direction = "TB") => {
     const isHorizontal = direction === "LR";
     dagreGraph.setGraph({ rankdir: direction });
 
     nodes.forEach((node) => {
-      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+      // Calculate node width dynamically based on label length
+      const labelWidth = node.data.label.length * 10 + 20; // Adjust multiplier and base width as needed
+      node.width = labelWidth;
+      node.height = 36; // Set node height (adjust as needed)
+      dagreGraph.setNode(node.id, { width: labelWidth, height: node.height });
     });
 
     edges.forEach((edge) => {
@@ -78,11 +84,9 @@ export const CareerPathTreeChart = () => {
       node.sourcePosition = isHorizontal ? "right" : "bottom";
 
       node.position = {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
+        x: nodeWithPosition.x - node.width / 2,
+        y: nodeWithPosition.y - node.height / 2,
       };
-
-      return node;
     });
 
     return { nodes, edges };
@@ -162,7 +166,10 @@ export const CareerPathTreeChart = () => {
   };
 
   const goBack = () => {
-    flowSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const enhancedNodes = nodes.map((node) => ({
@@ -172,6 +179,9 @@ export const CareerPathTreeChart = () => {
 
   return (
     <div>
+      <div>
+        <h4>Dynamic Expand & Collapse Flowchart</h4>
+      </div>
       <div ref={flowSectionRef} className="layoutflow">
         <ReactFlow
           nodes={enhancedNodes}
@@ -196,7 +206,7 @@ export const CareerPathTreeChart = () => {
         </ReactFlow>
       </div>
       <div ref={infoSectionRef} className="information-section">
-        <button onClick={goBack}>Go Back to Flowchart</button>
+        <button onClick={goBack}>Go Back to Top</button>
         {selectedNode && (
           <div>
             <h3>Information about {selectedNode.data.label}</h3>
