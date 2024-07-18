@@ -7,12 +7,12 @@ const NavBar = () => {
     <div className="navbar">
       <ul>
         <li>
-          <NavLink to="/" exact activeClassName="active">
+          <NavLink to="/"  activeclassname="active">
             Flowchart
           </NavLink>
         </li>
         <li>
-          <NavLink to="/thebe" activeClassName="active">
+          <NavLink to="/thebe" activeclassname="active">
             JupyterCells
           </NavLink>
         </li>

@@ -2,33 +2,75 @@ import React, { useEffect } from 'react';
 
 export const Thebe = () => {
   useEffect(() => {
-    if (window.thebelab) {
-      window.thebelab.bootstrap();
+    const bootstrapThebe = () => {
+      // Check if Thebe is already initialized
+      if (window.thebelab) {
+        console.log('Thebe.js loaded, bootstrapping...');
+        window.thebelab.bootstrap();
+      } else {
+        console.error('Thebe.js not loaded.');
+      }
+    };
+
+    // Load Thebe.js script dynamically if not already loaded
+    if (!window.thebelab) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/thebelab@latest/lib/index.js'; // Load from CDN
+      script.onload = bootstrapThebe;
+      script.onerror = () => {
+        console.error('Failed to load Thebe.js script.');
+      };
+      document.body.appendChild(script);
+    } else {
+      bootstrapThebe(); // Bootstrap Thebe if script is already loaded
     }
+
+    return () => {
+      // Cleanup if needed
+    };
   }, []);
 
   return (
     <div>
-      <div>
-        <h2>Work in Progress...</h2>
-        <p>I am still working on this part. I have added a jupyter notebook cell below but I haven't integrated the <b>Binder</b> kernel and the <br/>
-        backend required to run it. There's two images under that which show how the final product will look like. Please have a look and suggest me any possible designs!</p>
-      </div>
-      <h4>Live Code with Thebe</h4>
+      <h1>Interactive Code Example with Thebe</h1>
+
+      {/* Configuration block for Thebe */}
+      <script type="text/x-thebe-config">
+        {JSON.stringify({
+          requestKernel: true,
+          binderOptions: {
+            repo: "AdeshOak/thebetest",
+            ref: "main",  // or "master", depending on your default branch
+          },
+          codeMirrorConfig: {
+            theme: 'abcdef', // Optional: customize CodeMirror theme
+          },
+        })}
+      </script>
+
+      {/* Executable code blocks */}
       <pre data-executable="true" data-language="python">
-        print("Hello, Thebe!")
+        {`
+        print("Hello, Thebe in React!")
+        `}
       </pre>
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '50px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <img src="../assets/code.jpeg" alt="Image 1" style={{ width: '600px', height: 'auto' }} />
-          <p>CODE</p>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <img src="../assets/output.jpeg" alt="Image 2" style={{ width: '600px', height: 'auto'  }} />
-          <p>OUTPUT</p>
-        </div>
-      </div>
+
+      <pre data-executable="true" data-language="python">
+        {`
+          # Plotting a histogram of random data
+          import numpy as np
+          import matplotlib.pyplot as plt
+
+          data = np.random.randn(100)
+          plt.hist(data, bins=30)
+          plt.title("Histogram of Random Data")
+          plt.xlabel("Value")
+          plt.ylabel("Frequency")
+          plt.show()
+        `}
+      </pre>
     </div>
   );
 };
+
 
