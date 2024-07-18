@@ -57,16 +57,16 @@ export const Thebe = () => {
 
       <pre data-executable="true" data-language="python">
         {`
-          # Plotting a histogram of random data
           import numpy as np
           import matplotlib.pyplot as plt
-
+          
           data = np.random.randn(100)
           plt.hist(data, bins=30)
           plt.title("Histogram of Random Data")
           plt.xlabel("Value")
           plt.ylabel("Frequency")
           plt.show()
+          
         `}
       </pre>
     </div>
