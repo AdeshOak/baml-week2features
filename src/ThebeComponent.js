@@ -29,8 +29,9 @@ export const Thebe = () => {
       // Cleanup if needed
     };
   }, []);
-
+<script src="https://gist.github.com/AdeshOak/48804e276d03cc156c40deb217a4e185.js"></script>
   return (
+    
     <div>
       <h1>Interactive Code Example with Thebe</h1>
 
