@@ -42,6 +42,7 @@ export const Thebe = () => {
     
     <div>
        <h1>Google Colab notebook link</h1>
+       <div id="gist-script"></div>
       <h1>Interactive Code Example with Thebe</h1>
 
       {/* Configuration block for Thebe */}
