@@ -34,7 +34,7 @@ export const Thebe = () => {
 
   return () => {
     // Clean up scripts if needed
-    document.body.removeChild(gistScript);
+    //document.body.removeChild(gistScript);
   };
 }, []);
 
