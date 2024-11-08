@@ -25,16 +25,23 @@ export const Thebe = () => {
       bootstrapThebe(); // Bootstrap Thebe if script is already loaded
     }
 
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
+
+  // Load the Gist script for embedding
+  const gistScript = document.createElement('script');
+  gistScript.src = 'https://gist.github.com/AdeshOak/48804e276d03cc156c40deb217a4e185.js';
+  gistScript.async = true;
+  document.body.appendChild(gistScript);
+
+  return () => {
+    // Clean up scripts if needed
+    document.body.removeChild(gistScript);
+  };
+}, []);
 
   return (
     
     <div>
        <h1>Google Colab notebook link</h1>
-      <script src="https://gist.github.com/AdeshOak/48804e276d03cc156c40deb217a4e185.js"></script>
       <h1>Interactive Code Example with Thebe</h1>
 
       {/* Configuration block for Thebe */}
