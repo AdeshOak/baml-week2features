@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 export const Thebe = () => {
-  const [gistContent, setGistContent] = useState('');
-
   useEffect(() => {
     const bootstrapThebe = () => {
       if (window.thebelab) {
@@ -12,25 +10,6 @@ export const Thebe = () => {
         console.error('Thebe.js not loaded.');
       }
     };
-
-    // Function to fetch and render the Gist content
-    const fetchGist = async () => {
-      const gistId = '48804e276d03cc156c40deb217a4e185';
-      try {
-        const response = await fetch(`https://api.github.com/gists/${gistId}`);
-        const data = await response.json();
-        const files = data.files;
-        
-        // Assuming you want the first file's content
-        const fileContent = files[Object.keys(files)[0]].content;
-        setGistContent(fileContent);
-      } catch (error) {
-        console.error('Failed to fetch Gist content:', error);
-      }
-    };
-
-    // Fetch Gist content
-    fetchGist();
 
     // Load Thebe.js script dynamically if not already loaded
     if (!window.thebelab) {
@@ -50,10 +29,14 @@ export const Thebe = () => {
     <div>
       <h1>Google Colab Notebook Link</h1>
       
-      {/* Display the Gist content */}
-      <pre>
-        <code>{gistContent}</code>
-      </pre>
+      {/* Colab badge link */}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<a href="https://colab.research.google.com/gist/AdeshOak/48804e276d03cc156c40deb217a4e185/baml_test.ipynb" target="_blank">
+                     <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+                   </a>`,
+        }}
+      />
 
       <h1>Interactive Code Example with Thebe</h1>
 
