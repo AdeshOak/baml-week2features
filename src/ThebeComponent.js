@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const Thebe = () => {
+  const [gistContent, setGistContent] = useState('');
 
-    
   useEffect(() => {
     const bootstrapThebe = () => {
       if (window.thebelab) {
@@ -12,6 +12,7 @@ export const Thebe = () => {
         console.error('Thebe.js not loaded.');
       }
     };
+
     // Function to fetch and render the Gist content
     const fetchGist = async () => {
       const gistId = '48804e276d03cc156c40deb217a4e185';
@@ -26,8 +27,11 @@ export const Thebe = () => {
       } catch (error) {
         console.error('Failed to fetch Gist content:', error);
       }
+    };
 
-      fetchGist();
+    // Fetch Gist content
+    fetchGist();
+
     // Load Thebe.js script dynamically if not already loaded
     if (!window.thebelab) {
       const script = document.createElement('script');
@@ -40,10 +44,7 @@ export const Thebe = () => {
     } else {
       bootstrapThebe();
     }
-
-    
-
-   
+  }, []);
 
   return (
     <div>
@@ -93,5 +94,3 @@ plt.show()
     </div>
   );
 };
-
-
