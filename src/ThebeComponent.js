@@ -1,7 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import './ThebeNotebook.css'; // Use this to add custom Jupyter-like styling
 
-export const Thebe = () => {
+export const ThebeNotebook = () => {
+  const [notebookContent, setNotebookContent] = useState(null);
+
   useEffect(() => {
+    const fetchNotebook = async () => {
+      try {
+        const response = await fetch(
+          'https://raw.githubusercontent.com/AdeshOak/thebetest/main/test.ipynb'
+        );
+        const notebook = await response.json();
+        setNotebookContent(notebook);
+      } catch (error) {
+        console.error('Error fetching notebook:', error);
+      }
+    };
+
     const bootstrapThebe = () => {
       if (window.thebelab) {
         console.log('Thebe.js loaded, bootstrapping...');
@@ -11,24 +26,22 @@ export const Thebe = () => {
       }
     };
 
-    // Load Thebe.js script dynamically if not already loaded
     if (!window.thebelab) {
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/thebelab@latest/lib/index.js';
       script.onload = bootstrapThebe;
-      script.onerror = () => {
-        console.error('Failed to load Thebe.js script.');
-      };
       document.body.appendChild(script);
     } else {
       bootstrapThebe();
     }
+
+    fetchNotebook();
   }, []);
 
   return (
-    <div>
-      <h1>Google Colab Notebook Link</h1>
-      
+    <div className="thebe-notebook">
+      <h1>Interactive Jupyter Notebook</h1>
+
       {/* Colab badge link */}
       <div
         dangerouslySetInnerHTML={{
@@ -38,9 +51,6 @@ export const Thebe = () => {
         }}
       />
 
-      <h1>Interactive Code Example with Thebe</h1>
-
-      {/* Configuration block for Thebe */}
       <script type="text/x-thebe-config">
         {JSON.stringify({
           requestKernel: true,
@@ -54,26 +64,21 @@ export const Thebe = () => {
         })}
       </script>
 
-      {/* Executable code blocks */}
-      <pre data-executable="true" data-language="python">
-        {`
-        print("Hello, Thebe in React!")
-        `}
-      </pre>
-
-      <pre data-executable="true" data-language="python">
-        {`
-import numpy as np
-import matplotlib.pyplot as plt
-
-data = np.random.randn(100)
-plt.hist(data, bins=30)
-plt.title("Histogram of Random Data")
-plt.xlabel("Value")
-plt.ylabel("Frequency")
-plt.show()
-        `}
-      </pre>
+      {/* Display notebook content if available */}
+      {notebookContent ? (
+        <div className="notebook-container">
+          {notebookContent.cells.map((cell, index) => (
+            <pre key={index} data-executable={cell.cell_type === 'code'} data-language="python">
+              {cell.source.join('')}
+            </pre>
+          ))}
+        </div>
+      ) : (
+        <p>Loading notebook content...</p>
+      )}
     </div>
   );
 };
+
+export default ThebeNotebook;
+
