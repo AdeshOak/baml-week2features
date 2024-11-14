@@ -1,3 +1,5 @@
+// ThebeNotebook.js
+
 import React, { useEffect, useState } from 'react';
 import './ThebeNotebook.css';
 
@@ -81,3 +83,4 @@ const ThebeNotebook = () => {
 };
 
 export default ThebeNotebook;
+

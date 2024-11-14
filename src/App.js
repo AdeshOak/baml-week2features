@@ -1,8 +1,10 @@
+// App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
-import { CareerPathTreeChart } from "./Chart"; // Adjust import as per your Chart component location
-import { ThebeNotebook } from "./ThebeComponent"; // Adjust import as per your ThebeComponent location
+import { CareerPathTreeChart } from "./Chart";
+import ThebeNotebook from "./ThebeNotebook"; // Updated import
 import "./App.css";
 
 function App() {
