@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './ThebeNotebook.css'; // Use this to add custom Jupyter-like styling
+import './ThebeNotebook.css';
 
-export const ThebeNotebook = () => {
+const ThebeNotebook = () => {
   const [notebookContent, setNotebookContent] = useState(null);
 
   useEffect(() => {
@@ -81,4 +81,3 @@ export const ThebeNotebook = () => {
 };
 
 export default ThebeNotebook;
-
