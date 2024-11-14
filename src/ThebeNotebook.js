@@ -53,6 +53,7 @@ const ThebeNotebook = () => {
         }}
       />
 
+      {/* Thebe configuration script */}
       <script type="text/x-thebe-config">
         {JSON.stringify({
           requestKernel: true,
@@ -66,13 +67,21 @@ const ThebeNotebook = () => {
         })}
       </script>
 
-      {/* Display notebook content if available */}
+      {/* Display notebook cells */}
       {notebookContent ? (
         <div className="notebook-container">
           {notebookContent.cells.map((cell, index) => (
-            <pre key={index} data-executable={cell.cell_type === 'code'} data-language="python">
-              {cell.source.join('')}
-            </pre>
+            <div key={index} className="cell-container">
+              {cell.cell_type === 'code' ? (
+                <pre data-executable="true" data-language="python">
+                  {cell.source.join('')}
+                </pre>
+              ) : (
+                <div className="markdown-cell">
+                  <pre>{cell.source.join('')}</pre>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       ) : (
@@ -83,4 +92,5 @@ const ThebeNotebook = () => {
 };
 
 export default ThebeNotebook;
+
 
