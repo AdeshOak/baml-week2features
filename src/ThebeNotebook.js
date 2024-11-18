@@ -55,16 +55,12 @@ const ThebeNotebook = () => {
       <script type="text/x-thebe-config">
         {JSON.stringify({
           requestKernel: true,
-          binderOptions: {
-            repo: "AdeshOak/thebetest",
-            ref: "main",
-          },
           codeMirrorConfig: {
             theme: 'abcdef',
           },
           serverOptions: {
             baseUrl: "https://thebeimg-354944226045.us-south1.run.app/", // Cloud Run URL
-            password: "jserver24", // Set the password for Jupyter server
+            password: "jserver24", // Password for Jupyter server
           },
         })}
       </script>
