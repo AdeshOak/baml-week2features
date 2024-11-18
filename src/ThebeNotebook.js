@@ -8,42 +8,44 @@ const ThebeNotebook = () => {
   useEffect(() => {
     const login = async () => {
       try {
-        // Step 1: Fetch XSRF token by visiting the login page
+        // Step 1: Fetch XSRF token
         const loginPageResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
           method: 'GET',
-          credentials: 'same-origin', // This ensures cookies are sent with the request
+          credentials: 'same-origin', // Ensure cookies are sent
         });
-
-        // Step 2: Extract XSRF token from the cookies
+    
+        // Log cookies for debugging
+        logCookies();
+    
         const xsrfToken = getXSRFTokenFromCookies(document.cookie);
-        
+        console.log('XSRF Token:', xsrfToken); // Log to check the token
+    
         if (!xsrfToken) {
           throw new Error('XSRF token not found');
         }
-
-        // Step 3: Send POST request to login
+    
+        // Step 2: Send POST request to login
         const loginResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: `password=jserver24&_xsrf=${xsrfToken}`,
-          credentials: 'same-origin', // This ensures cookies are sent with the request
+          credentials: 'same-origin', // Ensure cookies are sent
         });
-
+    
         if (loginResponse.ok) {
           console.log('Login successful');
-          setIsLoggedIn(true); // Mark user as logged in
+          setIsLoggedIn(true);
         } else {
           console.error('Login failed');
           setIsLoggedIn(false);
         }
       } catch (error) {
         console.error('Error during login:', error);
-        console.log('Cookies:', document.cookie);
-
       }
     };
+    
 
     const fetchNotebook = async () => {
       try {
