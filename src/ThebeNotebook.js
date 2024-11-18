@@ -8,38 +8,41 @@ const ThebeNotebook = () => {
   useEffect(() => {
     const login = async () => {
       try {
-        // Step 1: Fetch XSRF token
+        // Step 1: Fetch the login page to set cookies (XSRF token included in response)
         const loginPageResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
           method: 'GET',
-          credentials: 'same-origin', // Ensure cookies are sent
+          credentials: 'include', // Ensure cookies (including XSRF token) are sent and received
         });
-
-        // Log cookies for debugging
-        logCookies();
-
+    
+        // Log cookies for debugging to check if the XSRF token is set
+        logCookies(); // You can define a logCookies function to log cookies, if necessary
+    
+        // Step 2: Extract the XSRF token from the cookies
         const xsrfToken = getXSRFTokenFromCookies(document.cookie);
         console.log('XSRF Token:', xsrfToken); // Log to check the token
-
+    
+        // If XSRF token is not found, throw an error
         if (!xsrfToken) {
           throw new Error('XSRF token not found');
         }
-
-        // Step 2: Send POST request to login
+    
+        // Step 3: Send POST request to login with XSRF token
         const loginResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded', // URL-encoded body for the login request
           },
-          body: `password=jserver24&_xsrf=${xsrfToken}`,
-          credentials: 'same-origin', // Ensure cookies are sent
+          body: `password=jserver24&_xsrf=${xsrfToken}`, // Pass the XSRF token in the body
+          credentials: 'include', // Ensure cookies (including XSRF token) are sent with the request
         });
-
+    
+        // Step 4: Check if the login was successful
         if (loginResponse.ok) {
           console.log('Login successful');
-          setIsLoggedIn(true);
+          setIsLoggedIn(true); // Update the login state
         } else {
           console.error('Login failed');
-          setIsLoggedIn(false);
+          setIsLoggedIn(false); // Update the login state on failure
         }
       } catch (error) {
         console.error('Error during login:', error);
