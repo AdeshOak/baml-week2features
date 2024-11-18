@@ -40,6 +40,8 @@ const ThebeNotebook = () => {
         }
       } catch (error) {
         console.error('Error during login:', error);
+        console.log('Cookies:', document.cookie);
+
       }
     };
 
