@@ -3,8 +3,46 @@ import './ThebeNotebook.css';
 
 const ThebeNotebook = () => {
   const [notebookContent, setNotebookContent] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const login = async () => {
+      try {
+        // Step 1: Fetch XSRF token by visiting the login page
+        const loginPageResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
+          method: 'GET',
+          credentials: 'same-origin', // This ensures cookies are sent with the request
+        });
+
+        // Step 2: Extract XSRF token from the cookies
+        const xsrfToken = getXSRFTokenFromCookies(document.cookie);
+        
+        if (!xsrfToken) {
+          throw new Error('XSRF token not found');
+        }
+
+        // Step 3: Send POST request to login
+        const loginResponse = await fetch('https://thebeimg-354944226045.us-south1.run.app/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `password=jserver24&_xsrf=${xsrfToken}`,
+          credentials: 'same-origin', // This ensures cookies are sent with the request
+        });
+
+        if (loginResponse.ok) {
+          console.log('Login successful');
+          setIsLoggedIn(true); // Mark user as logged in
+        } else {
+          console.error('Login failed');
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+      }
+    };
+
     const fetchNotebook = async () => {
       try {
         const response = await fetch(
@@ -26,17 +64,34 @@ const ThebeNotebook = () => {
       }
     };
 
-    if (!window.thebelab) {
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/thebelab@latest/lib/index.js';
-      script.onload = bootstrapThebe;
-      document.body.appendChild(script);
-    } else {
-      bootstrapThebe();
-    }
+    // Initialize Thebe only after successful login
+    if (isLoggedIn) {
+      if (!window.thebelab) {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/thebelab@latest/lib/index.js';
+        script.onload = bootstrapThebe;
+        document.body.appendChild(script);
+      } else {
+        bootstrapThebe();
+      }
 
-    fetchNotebook();
-  }, []);
+      fetchNotebook(); // Fetch the notebook after login
+    } else {
+      login(); // Trigger login flow when the component mounts
+    }
+  }, [isLoggedIn]);
+
+  // Utility function to extract XSRF token from cookies
+  function getXSRFTokenFromCookies(cookieString) {
+    const cookies = cookieString.split(';');
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === '_xsrf') {
+        return value;
+      }
+    }
+    return null; // If no token found, return null
+  }
 
   return (
     <div className="thebe-notebook">
@@ -90,5 +145,3 @@ const ThebeNotebook = () => {
 };
 
 export default ThebeNotebook;
-
-
