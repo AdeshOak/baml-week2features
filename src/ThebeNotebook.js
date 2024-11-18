@@ -127,7 +127,7 @@ const ThebeNotebook = () => {
             theme: 'abcdef',
           },
           serverOptions: {
-            baseUrl: 'https://thebeimg-354944226045.us-south1.run.app/', // Cloud Run URL
+            baseUrl: 'https://thebeimg2-354944226045.us-south1.run.app/', // Cloud Run URL
             token: 'jserver24', // Password for Jupyter server
           },
         })}
