@@ -60,7 +60,7 @@ const ThebeNotebook = () => {
           },
           serverOptions: {
             baseUrl: "https://thebeimg-354944226045.us-south1.run.app/", // Cloud Run URL
-            password: "jserver24", // Password for Jupyter server
+            token: "jserver24", // Password for Jupyter server
           },
         })}
       </script>
