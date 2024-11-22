@@ -218,7 +218,7 @@ export const CareerPathTreeChart = () => {
       <div style={{ width: '100%', height: '100vh', border: 'none' }}>
       <iframe
   //src="https://adeshoak.github.io/thebe-impl/repl/test.ipynb?toolbar=1"
-  src="https://adeshoak.github.io/thebe-impl/repl/lab/index.html"
+  src="https://jl-impl.vercel.app/lab/index.html"
   width="100%"
   height="100%"
   style={{ border: 'none' }}
