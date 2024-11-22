@@ -217,7 +217,7 @@ export const CareerPathTreeChart = () => {
 
       <div style={{ width: '100%', height: '100vh', border: 'none' }}>
       <iframe
-  src="https://adeshoak.github.io/thebe-impl/lab/index.html"
+  src="https://adeshoak.github.io/thebe-impl/repl/index.html"
   width="100%"
   height="100%"
   style={{ border: 'none' }}
